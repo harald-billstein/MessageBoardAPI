@@ -1,4 +1,4 @@
-package billstein.harald.chatApi.utility;
+package billstein.harald.chatApi.model;
 
 import billstein.harald.chatApi.Entity.MessageEntity;
 import billstein.harald.chatApi.Entity.UserEntity;
