@@ -1,6 +1,5 @@
 package billstein.harald.chatApi.service;
 
-import billstein.harald.chatApi.Entity.MessageEntity;
 import billstein.harald.chatApi.Entity.UserEntity;
 import billstein.harald.chatApi.model.IncomingMessage;
 import billstein.harald.chatApi.model.OutgoingMessage;
@@ -52,15 +51,16 @@ public class MessageServiceController {
   sendMessage(@RequestBody() IncomingMessage messageReceived) {
     logger.info("send/message");
 
-    HttpStatus httpStatus;
-    UserEntity user = null;
+    UserEntity user;
     boolean isUserPreset;
     boolean isPasswordCorrect = false;
-    boolean isMessageFromProfanityFree = false;
-    boolean isMessageSizeAccepted = false;
+    boolean isMessageFromProfanityFree;
+    boolean isMessageSizeAccepted;
+
+    OutgoingMessage outgoingMessage = messageHandler.createOutgoingMessage(messageReceived);
 
     isUserPreset = userHandler.isValidUser(messageReceived.getUser());
-    logger.info("user Present: " + isUserPreset);
+
     if (isUserPreset) {
       user = userHandler.getUser(messageReceived.getUser());
 
@@ -68,37 +68,31 @@ public class MessageServiceController {
         isPasswordCorrect = userHandler.userHasAccess(
             PasswordHandler.getPossibleMatches(messageReceived.getPassword(), user.getSalt()),
             user.getToken());
-        logger.info("user password accepted: " + isPasswordCorrect);
       } catch (NoSuchAlgorithmException e) {
         e.printStackTrace();
       }
 
+    } else {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(outgoingMessage);
     }
 
     if (isPasswordCorrect) {
       isMessageFromProfanityFree = messageHandler.isFreeFromProfanity(messageReceived.getMessage());
-      logger.info("user message profanityfree: " + isMessageFromProfanityFree);
+    } else {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(outgoingMessage);
     }
 
     if (isMessageFromProfanityFree) {
       isMessageSizeAccepted = messageHandler.isMessageSizeAccepted(messageReceived.getMessage());
-      logger.info("user message size OK?: " + isMessageSizeAccepted);
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(outgoingMessage);
     }
 
     if (isMessageSizeAccepted) {
-      MessageEntity messageEntity = new MessageEntity();
-      messageEntity.setMessageContent(messageReceived.getMessage());
-      messageEntity.setUser(user);
-      messageHandler.saveMessage(messageEntity);
-      httpStatus = HttpStatus.OK;
+      messageHandler.saveIncomingMessage(messageReceived.getMessage(), user);
+      return ResponseEntity.status(HttpStatus.OK).body(outgoingMessage);
     } else {
-      // TODO add more Httpstatus for diffretn errors
-      httpStatus = HttpStatus.NOT_ACCEPTABLE;
+      return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body(outgoingMessage);
     }
-
-    OutgoingMessage outgoingMessage = new OutgoingMessage();
-    outgoingMessage.setUser(messageReceived.getUser());
-    outgoingMessage.setMessage(messageReceived.getMessage());
-    return ResponseEntity.status(httpStatus).body(outgoingMessage);
   }
 }

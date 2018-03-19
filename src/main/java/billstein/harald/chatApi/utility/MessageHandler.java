@@ -1,6 +1,8 @@
 package billstein.harald.chatApi.utility;
 
 import billstein.harald.chatApi.Entity.MessageEntity;
+import billstein.harald.chatApi.Entity.UserEntity;
+import billstein.harald.chatApi.model.IncomingMessage;
 import billstein.harald.chatApi.model.OutgoingMessage;
 import billstein.harald.chatApi.model.ProfanityFilter;
 import billstein.harald.chatApi.repository.MessageRepository;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class MessageHandler {
 
-  private static final int MAX_LENGTH_MESSAGE = 5;
+  private static final int MAX_LENGTH_MESSAGE = 255;
   private ProfanityFilter profanityFilter;
   private MessageRepository messageRepository;
 
@@ -24,7 +26,11 @@ public class MessageHandler {
     return profanityFilter.isProfanityFree(message);
   }
 
-  public void saveMessage(MessageEntity messageEntity) {
+  public void saveIncomingMessage(String message, UserEntity user) {
+    MessageEntity messageEntity = new MessageEntity();
+    messageEntity.setMessageContent(message);
+    messageEntity.setUser(user);
+
     messageRepository.save(messageEntity);
   }
 
@@ -44,12 +50,15 @@ public class MessageHandler {
 
   }
 
-
   public boolean isMessageSizeAccepted(String message) {
-    if (message.length() > MAX_LENGTH_MESSAGE) {
-      return false;
-    } else {
-      return true;
-    }
+    return message.length() <= MAX_LENGTH_MESSAGE;
+  }
+
+  public OutgoingMessage createOutgoingMessage(IncomingMessage incomingMessage) {
+    OutgoingMessage outgoingMessage = new OutgoingMessage();
+    outgoingMessage.setMessage(incomingMessage.getMessage());
+    outgoingMessage.setUser(incomingMessage.getUser());
+
+    return outgoingMessage;
   }
 }
