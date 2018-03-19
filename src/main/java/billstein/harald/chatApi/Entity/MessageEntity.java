@@ -1,6 +1,5 @@
 package billstein.harald.chatApi.Entity;
 
-import billstein.harald.chatApi.Entity.UserEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -10,7 +10,8 @@ public class PasswordHandler {
 
   private static String alphabetString = "ABCDEFGHILJKLMNOPQRSTUVXYZabcdefghiljklmnopqrstuvxyz";
 
-  public PasswordHandler() {}
+  public PasswordHandler() {
+  }
 
   public static List<String> getPossibleMatches(String password, String salt)
       throws NoSuchAlgorithmException {
