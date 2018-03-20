@@ -1,6 +1,6 @@
-package billstein.harald.chatApi.repository;
+package billstein.harald.chatApi.database;
 
-import billstein.harald.chatApi.Entity.UserEntity;
+import billstein.harald.chatApi.entity.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<UserEntity, Integer> {

@@ -1,4 +1,4 @@
-package billstein.harald.chatApi.Entity;
+package billstein.harald.chatApi.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.Set;

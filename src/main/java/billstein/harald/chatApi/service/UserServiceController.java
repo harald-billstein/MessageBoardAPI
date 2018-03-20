@@ -1,9 +1,9 @@
 package billstein.harald.chatApi.service;
 
-import billstein.harald.chatApi.Entity.UserEntity;
-import billstein.harald.chatApi.model.User;
-import billstein.harald.chatApi.repository.UserRepository;
-import billstein.harald.chatApi.utility.PasswordHandler;
+import billstein.harald.chatApi.entity.UserEntity;
+import billstein.harald.chatApi.model.IncomingUser;
+import billstein.harald.chatApi.database.UserRepository;
+import billstein.harald.chatApi.utility.PasswordUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +26,11 @@ public class UserServiceController {
   }
 
   @PostMapping(path = "/user/new")
-  public ResponseEntity<User> postUser(@RequestBody() User user) {
+  public ResponseEntity<IncomingUser> postUser(@RequestBody() IncomingUser user) {
     logger.info("postUser");
 
     String salt = RandomStringUtils.randomAlphabetic(10);
-    String token = PasswordHandler.createHashedPassword(user.getPassWord(), salt);
+    String token = PasswordUtil.createHashedPassword(user.getPassWord(), salt);
 
     UserEntity userToBeSaved = new UserEntity();
 

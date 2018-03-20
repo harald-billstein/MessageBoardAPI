@@ -1,7 +1,7 @@
-package billstein.harald.chatApi.model;
+package billstein.harald.chatApi.repository;
 
-import billstein.harald.chatApi.Entity.UserEntity;
-import billstein.harald.chatApi.repository.UserRepository;
+import billstein.harald.chatApi.database.UserRepository;
+import billstein.harald.chatApi.entity.UserEntity;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

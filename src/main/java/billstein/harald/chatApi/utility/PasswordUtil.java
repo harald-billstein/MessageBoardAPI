@@ -6,11 +6,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PasswordHandler {
+public class PasswordUtil {
 
   private static String alphabetString = "ABCDEFGHILJKLMNOPQRSTUVXYZabcdefghiljklmnopqrstuvxyz";
 
-  public PasswordHandler() {
+  public PasswordUtil() {
   }
 
   public static List<String> getPossibleMatches(String password, String salt)

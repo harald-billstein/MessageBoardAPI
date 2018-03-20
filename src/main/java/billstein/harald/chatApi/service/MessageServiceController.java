@@ -1,12 +1,11 @@
 package billstein.harald.chatApi.service;
 
-import billstein.harald.chatApi.Entity.UserEntity;
+import billstein.harald.chatApi.entity.UserEntity;
 import billstein.harald.chatApi.model.IncomingMessage;
 import billstein.harald.chatApi.model.OutgoingMessage;
-import billstein.harald.chatApi.model.MessageHandler;
-import billstein.harald.chatApi.model.ProfanityFilter;
-import billstein.harald.chatApi.utility.PasswordHandler;
-import billstein.harald.chatApi.model.UserHandler;
+import billstein.harald.chatApi.repository.MessageHandler;
+import billstein.harald.chatApi.utility.PasswordUtil;
+import billstein.harald.chatApi.repository.UserHandler;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import org.slf4j.Logger;
@@ -67,7 +66,7 @@ public class MessageServiceController {
 
       try {
         isPasswordCorrect = userHandler.userHasAccess(
-            PasswordHandler.getPossibleMatches(messageReceived.getPassword(), user.getSalt()),
+            PasswordUtil.getPossibleMatches(messageReceived.getPassword(), user.getSalt()),
             user.getToken());
       } catch (NoSuchAlgorithmException e) {
         e.printStackTrace();

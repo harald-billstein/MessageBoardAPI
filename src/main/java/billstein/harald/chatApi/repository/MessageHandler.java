@@ -1,11 +1,11 @@
-package billstein.harald.chatApi.model;
+package billstein.harald.chatApi.repository;
 
-import billstein.harald.chatApi.Entity.MessageEntity;
-import billstein.harald.chatApi.Entity.UserEntity;
+import billstein.harald.chatApi.database.MessageRepository;
+import billstein.harald.chatApi.entity.MessageEntity;
+import billstein.harald.chatApi.entity.UserEntity;
 import billstein.harald.chatApi.model.IncomingMessage;
 import billstein.harald.chatApi.model.OutgoingMessage;
-import billstein.harald.chatApi.model.ProfanityFilter;
-import billstein.harald.chatApi.repository.MessageRepository;
+import billstein.harald.chatApi.profanity.ProfanityFilter;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Controller;

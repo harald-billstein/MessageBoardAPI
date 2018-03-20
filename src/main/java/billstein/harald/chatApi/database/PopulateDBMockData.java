@@ -1,8 +1,10 @@
-package billstein.harald.chatApi.repository;
+package billstein.harald.chatApi.database;
 
-import billstein.harald.chatApi.Entity.MessageEntity;
-import billstein.harald.chatApi.Entity.UserEntity;
-import billstein.harald.chatApi.utility.PasswordHandler;
+import billstein.harald.chatApi.database.MessageRepository;
+import billstein.harald.chatApi.database.UserRepository;
+import billstein.harald.chatApi.entity.MessageEntity;
+import billstein.harald.chatApi.entity.UserEntity;
+import billstein.harald.chatApi.utility.PasswordUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -31,11 +33,11 @@ public class PopulateDBMockData implements ApplicationListener<ContextRefreshedE
 
     harald.setUserName("Harald");
     harald.setSalt(RandomStringUtils.randomAlphabetic(10));
-    harald.setToken(PasswordHandler.createHashedPassword("badPassword", harald.getSalt()));
+    harald.setToken(PasswordUtil.createHashedPassword("badPassword", harald.getSalt()));
 
     lisette.setUserName("Lisette");
     lisette.setSalt(RandomStringUtils.randomAlphabetic(10));
-    lisette.setToken(PasswordHandler.createHashedPassword("realBadPass", harald.getSalt()));
+    lisette.setToken(PasswordUtil.createHashedPassword("realBadPass", harald.getSalt()));
 
     userRepository.save(harald);
     userRepository.save(lisette);
