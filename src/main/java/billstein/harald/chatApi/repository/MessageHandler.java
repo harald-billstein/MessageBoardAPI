@@ -5,7 +5,7 @@ import billstein.harald.chatApi.entity.MessageEntity;
 import billstein.harald.chatApi.entity.UserEntity;
 import billstein.harald.chatApi.model.IncomingMessage;
 import billstein.harald.chatApi.model.OutgoingMessage;
-import billstein.harald.chatApi.profanity.ProfanityFilter;
+import billstein.harald.chatApi.profanity.ProfanityHandler;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -14,16 +14,16 @@ import org.springframework.stereotype.Controller;
 public class MessageHandler {
 
   private static final int MAX_LENGTH_MESSAGE = 255;
-  private ProfanityFilter profanityFilter;
+  private ProfanityHandler profanityHandler;
   private MessageRepository messageRepository;
 
-  public MessageHandler(ProfanityFilter profanityFilter, MessageRepository messageRepository) {
-    this.profanityFilter = profanityFilter;
+  public MessageHandler(ProfanityHandler profanityHandler, MessageRepository messageRepository) {
+    this.profanityHandler = profanityHandler;
     this.messageRepository = messageRepository;
   }
 
   public boolean isFreeFromProfanity(String message) {
-    return profanityFilter.isProfanityFree(message);
+    return profanityHandler.isProfanityFree(message);
   }
 
   public void saveIncomingMessage(String message, UserEntity user) {

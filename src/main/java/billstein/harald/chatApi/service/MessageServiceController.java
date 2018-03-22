@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@RequestMapping(path = "/api")
+@RequestMapping(path = "/api/v2")
 public class MessageServiceController {
 
   private Logger logger = LoggerFactory.getLogger(MessageServiceController.class);

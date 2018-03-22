@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(path = "/api")
+@RequestMapping(path = "/api/v2")
 public class UserServiceController {
 
   private Logger logger = LoggerFactory.getLogger(UserServiceController.class);
