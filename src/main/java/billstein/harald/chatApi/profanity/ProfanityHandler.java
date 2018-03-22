@@ -1,13 +1,11 @@
 package billstein.harald.chatApi.profanity;
 
-import java.util.ArrayList;
 import java.util.List;
-import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
-@Data
+
 @Controller
 public class ProfanityHandler extends ProfanityIO {
 
@@ -15,7 +13,7 @@ public class ProfanityHandler extends ProfanityIO {
   private List<String> bannedWords;
 
   public ProfanityHandler() {
-    bannedWords = new ArrayList<String>();//this.loadBannedWordsFromXML();
+    bannedWords = this.loadBannedWordsFromXML();
   }
 
   public boolean isProfanityFree(String message) {
@@ -41,8 +39,10 @@ public class ProfanityHandler extends ProfanityIO {
   }
   public boolean addWordToProfanityList(String word) {
     logger.info("P-handler: " + word);
-    //bannedWords.add(word);
-    this.addWordToXMLFile(word);
-    return false;
+    return this.addWordToXMLFile(word);
+  }
+
+  public boolean removeWordFromProfanityList(String word) {
+    return this.deleteWordFromXMLFile(word);
   }
 }

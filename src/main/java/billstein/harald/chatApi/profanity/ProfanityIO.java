@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Resource;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -14,14 +15,15 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 
-
-// TODO work in progress
 public class ProfanityIO {
 
   private static final String URL = "src/main/resources/profanity.xml";
-    private Logger logger = LoggerFactory.getLogger(ProfanityIO.class);
+  private static final String URL2 = new ClassPathResource("profanity.xml").getPath();
+  private Logger logger = LoggerFactory.getLogger(ProfanityIO.class);
   private XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
+  private SAXBuilder saxBuilder = new SAXBuilder();
 
   public ProfanityIO() {
     init();
@@ -33,20 +35,18 @@ public class ProfanityIO {
     if (!file.exists()) {
       createFile();
     }
+
     loadBannedWordsFromXML();
   }
 
 
-  
-
-  public List<String> loadBannedWordsFromXML() {
+  List<String> loadBannedWordsFromXML() {
     List<String> bannedWords = new ArrayList<>();
-        SAXBuilder saxBuilder = new SAXBuilder();
     try {
       Document doc = saxBuilder.build("src/main/resources/profanity.xml");
       List<Element> elements = doc.getRootElement().getChildren();
 
-      for (Element element: elements){
+      for (Element element : elements) {
         logger.info("" + element.getText());
       }
 
@@ -58,12 +58,7 @@ public class ProfanityIO {
   }
 
 
-
-
-
-
-  // TODO create file if not exist
-  public boolean createFile() {
+  private void createFile() {
     Document document = new Document();
 
     Element rootElement = new Element("bannedwords");
@@ -84,16 +79,13 @@ public class ProfanityIO {
 
     try {
       xmlOutputter.output(document, new FileOutputStream(URL));
-      return true;
     } catch (IOException e) {
       e.printStackTrace();
-      return false;
     }
   }
 
-  public boolean addWordToXMLFile(String word) {
+  boolean addWordToXMLFile(String word) {
 
-    SAXBuilder saxBuilder = new SAXBuilder();
     Document doc;
     boolean success = false;
 
@@ -108,12 +100,40 @@ public class ProfanityIO {
     } catch (JDOMException | IOException e) {
       e.printStackTrace();
     }
+
     return success;
   }
 
-  // TODO readfile add words to list
-  // TODO add words to list
-  // TODO delete words from list
-  // TODO edit word from list
+  public boolean deleteWordFromXMLFile(String word) {
+    // TODO when one word left <bannedwords> get messedup
+    logger.info(word);
+    Document doc;
+    boolean success = false;
 
+    try {
+      doc = saxBuilder.build("src/main/resources/profanity.xml");
+      Element root = doc.getRootElement();
+
+      for (int i = 0; i < root.getChildren().size(); i++) {
+        if (root.getChildren().get(i).getText().equals(word)) {
+          root.getChildren().remove(i);
+        }
+      }
+
+      xmlOutputter.output(doc, new FileOutputStream("src/main/resources/profanity.xml"));
+
+      success = true;
+
+    } catch (JDOMException | IOException e) {
+      e.printStackTrace();
+    }
+
+    return success;
+  }
+
+  public boolean editWordFromXMLFile() {
+
+    new RuntimeException("editeWordFromXMLFile not implemented");
+    return false;
+  }
 }
