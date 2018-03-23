@@ -7,13 +7,15 @@ import org.springframework.stereotype.Controller;
 
 
 @Controller
-public class ProfanityHandler extends ProfanityIO {
+public class ProfanityHandler {
 
   private Logger logger = LoggerFactory.getLogger(ProfanityHandler.class);
+  private ProfanityIO profanityIO;
   private List<String> bannedWords;
 
-  public ProfanityHandler() {
-    bannedWords = this.loadBannedWordsFromXML();
+  public ProfanityHandler(ProfanityIO profanityIO) {
+    this.profanityIO = profanityIO;
+    bannedWords = profanityIO.loadBannedWordsFromXML();
   }
 
   public boolean isProfanityFree(String message) {
@@ -28,7 +30,7 @@ public class ProfanityHandler extends ProfanityIO {
 
   public boolean reloadProfanityList() {
 
-    List<String> tempList = this.loadBannedWordsFromXML();
+    List<String> tempList = profanityIO.loadBannedWordsFromXML();
 
     if (tempList.size() <= 0 || tempList.size() == this.bannedWords.size()) {
       return false;
@@ -39,10 +41,10 @@ public class ProfanityHandler extends ProfanityIO {
   }
   public boolean addWordToProfanityList(String word) {
     logger.info("P-handler: " + word);
-    return this.addWordToXMLFile(word);
+    return profanityIO.addWordToXMLFile(word);
   }
 
   public boolean removeWordFromProfanityList(String word) {
-    return this.deleteWordFromXMLFile(word);
+    return profanityIO.deleteWordFromXMLFile(word);
   }
 }

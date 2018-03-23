@@ -39,7 +39,7 @@ public class PasswordUtil {
     md.update(pepper.getBytes());
 
     byte byteData[] = md.digest();
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
 
     for (byte aByteData : byteData) {
       sb.append(Integer.toString((aByteData & 0xff) + 0x100, 16).substring(1));

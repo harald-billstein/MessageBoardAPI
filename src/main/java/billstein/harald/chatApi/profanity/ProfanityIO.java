@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Resource;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -15,27 +14,26 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class ProfanityIO {
 
   private static final String URL = "src/main/resources/profanity.xml";
-  private static final String URL2 = new ClassPathResource("profanity.xml").getPath();
   private Logger logger = LoggerFactory.getLogger(ProfanityIO.class);
   private XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
   private SAXBuilder saxBuilder = new SAXBuilder();
 
   public ProfanityIO() {
+    logger.info("ProfanityIO - created");
     init();
   }
 
   private void init() {
     File file = new File(URL);
-
     if (!file.exists()) {
       createFile();
     }
-
     loadBannedWordsFromXML();
   }
 
@@ -43,11 +41,11 @@ public class ProfanityIO {
   List<String> loadBannedWordsFromXML() {
     List<String> bannedWords = new ArrayList<>();
     try {
-      Document doc = saxBuilder.build("src/main/resources/profanity.xml");
-      List<Element> elements = doc.getRootElement().getChildren();
+      Document document = getDocument();
+      List<Element> children = getChildrenElements(document);
 
-      for (Element element : elements) {
-        logger.info("" + element.getText());
+      for (Element child : children) {
+        logger.info("" + child.getText());
       }
 
     } catch (JDOMException | IOException e) {
@@ -78,7 +76,7 @@ public class ProfanityIO {
     rootElement.addContent(wordCunt);
 
     try {
-      xmlOutputter.output(document, new FileOutputStream(URL));
+      save(document);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -86,17 +84,32 @@ public class ProfanityIO {
 
   boolean addWordToXMLFile(String word) {
 
-    Document doc;
+    Document document;
     boolean success = false;
+    boolean duplicateFound = false;
 
+    // TODO fix so no dub. entries
     try {
-      doc = saxBuilder.build("src/main/resources/profanity.xml");
-      Element root = doc.getRootElement();
+      document = getDocument();
+      Element root = document.getRootElement();
+      List<Element> children = getChildrenElements(document);
       Element wordToBeInserted = new Element("word");
-      wordToBeInserted.addContent(new Text(word));
-      root.addContent(wordToBeInserted);
-      xmlOutputter.output(doc, new FileOutputStream("src/main/resources/profanity.xml"));
-      success = true;
+
+      for (Element child : children) {
+        if (child.getText().equals(word)) {
+          duplicateFound = true;
+          break;
+        }
+      }
+
+      if (!duplicateFound) {
+        wordToBeInserted.addContent(new Text(word));
+        root.addContent(wordToBeInserted);
+        save(document);
+        success = true;
+      }
+
+
     } catch (JDOMException | IOException e) {
       e.printStackTrace();
     }
@@ -105,22 +118,23 @@ public class ProfanityIO {
   }
 
   public boolean deleteWordFromXMLFile(String word) {
-    // TODO when one word left <bannedwords> get messedup
-    logger.info(word);
-    Document doc;
+    Document document;
     boolean success = false;
 
     try {
-      doc = saxBuilder.build("src/main/resources/profanity.xml");
-      Element root = doc.getRootElement();
+      document = getDocument();
+      List<Element> children = getChildrenElements(document);
 
-      for (int i = 0; i < root.getChildren().size(); i++) {
-        if (root.getChildren().get(i).getText().equals(word)) {
-          root.getChildren().remove(i);
+      for (int i = 0; i < children.size(); i++) {
+        logger.info("to be used if: " + children.get(i).getText());
+        if (word.equals(children.get(i).getText())) {
+          children.get(i).detach();
+          break;
         }
+
       }
 
-      xmlOutputter.output(doc, new FileOutputStream("src/main/resources/profanity.xml"));
+      save(document);
 
       success = true;
 
@@ -131,9 +145,37 @@ public class ProfanityIO {
     return success;
   }
 
-  public boolean editWordFromXMLFile() {
+  private Document getDocument() throws JDOMException, IOException {
+    return saxBuilder.build("src/main/resources/profanity.xml");
+  }
 
-    new RuntimeException("editeWordFromXMLFile not implemented");
-    return false;
+  private List<Element> getChildrenElements(Document document) throws JDOMException, IOException {
+    Element root = document.getRootElement();
+    return root.getChildren();
+  }
+
+  private void save(Document doc) throws IOException {
+    xmlOutputter.output(doc, new FileOutputStream("src/main/resources/profanity.xml"));
+  }
+
+  public boolean editWordFromXMLFile(String oldWord, String newWord) {
+    boolean success = false;
+
+    try {
+      Document document = getDocument();
+      List<Element> children = getChildrenElements(document);
+
+      for (int i = 0; i < children.size(); i++) {
+        if (children.get(i).getText().equals(oldWord)) {
+          children.get(i).setText(newWord);
+          success = true;
+          break;
+        }
+      }
+    } catch (JDOMException | IOException e) {
+      e.printStackTrace();
+    }
+
+    return success;
   }
 }

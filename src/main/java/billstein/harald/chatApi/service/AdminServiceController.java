@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdminServiceController {
 
   private Logger logger = LoggerFactory.getLogger(AdminServiceController.class);
-  private ProfanityHandler profanityHandler = new ProfanityHandler();
+  private ProfanityHandler profanityHandler;
+
+  public AdminServiceController(ProfanityHandler profanityHandler) {
+    this.profanityHandler = profanityHandler;
+  }
 
   @PostMapping(path = "/add/banned/word")
   public ResponseEntity<String> addBannedWord(@RequestParam String word) {
