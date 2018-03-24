@@ -5,6 +5,10 @@
 - cd to downloaded file
 - java -jar chatapi-0.0.1-SNAPSHOT.jar
 
+- paste link in browser http://localhost:8090/api/v2/latest/messages
+- A small list of messages should appear.
+- Read Documentation on how to interact with the rest of the endpoints
+
 ## Documentation
 
 [Send message documentation](documentation/SENDMESSAGE.md)<br>
