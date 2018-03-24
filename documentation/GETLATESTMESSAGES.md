@@ -11,7 +11,7 @@
 
 * **Success Response:**
 
-  * **Code:** 200 <br />
+  * **Code:** 200 <br/>
     **Content:** `[
                       {
                           "user": "User1",
@@ -38,6 +38,6 @@
  
 * **Error Response:**
 
-  * **Code:** 404 NOT_FOUND <br />
+  * **Code:** 404 NOT_FOUND <br/>
 
     

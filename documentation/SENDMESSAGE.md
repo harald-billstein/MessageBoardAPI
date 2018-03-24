@@ -15,26 +15,26 @@
     {
     	"user":"user",
     	"password":"password",
-        "message": "message"
+      "message": "message"
     }
 
 * **Success Response:**
 
-  * **Code:** 200 <br />
+  * **Code:** 200 <br/>
     **Content:** `{"user": "user","message": "message"}`
  
 * **Error Response:**
 
-  * **Code:** 401 UNAUTHORIZED <br />
+  * **Code:** 401 UNAUTHORIZED <br/>
     **Content:** `{"user": "user","message": "message"}`
 
   OR
 
-  * **Code:** 406 NOT_ACCEPTABLE <br />
+  * **Code:** 406 NOT_ACCEPTABLE <br/>
     **Content:** `{"user": "user","message": "message"}`
     
   OR
     
-  * **Code:** 413 PAYLOAD_TOO_LARGE <br />
+  * **Code:** 413 PAYLOAD_TOO_LARGE <br/>
     **Content:** `{"user": "user","message": "message"}`
     

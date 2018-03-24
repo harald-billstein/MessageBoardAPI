@@ -3,7 +3,7 @@
 
 * **URL**
 
-  /api/v2//user/new
+  /api/v2/user/new
 
 * **Method:**
 
@@ -19,10 +19,10 @@
 
 * **Success Response:**
 
-  * **Code:** 200 <br />
+  * **Code:** 200 <br/>
     **Content:** `{"userName": "username","passWord": "password"}`
  
 * **Error Response:**
 
-  * **Code:** 226 IM_USED <br />
+  * **Code:** 226 IM_USED <br/>
     **Content:** `{"userName": "username","passWord": "password"}`
