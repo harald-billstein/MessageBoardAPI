@@ -1,3 +1,10 @@
+## How to run if layzy and default is OK?
+- [Download this](Compiled/chatapi-0.0.1-SNAPSHOT.jar)<br>
+- install java
+- launch terminal
+- cd to downloaded file
+- java -jar chatapi-0.0.1-SNAPSHOT.jar
+
 ## Documentation
 
 [Send message documentation](documentation/SENDMESSAGE.md)<br>
