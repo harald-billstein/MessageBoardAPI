@@ -1,5 +1,5 @@
 ## How to run if layzy and default is OK?
-- [Download this](https://github.com/harald-billstein/Blog-Chat-API/raw/master/Compiled/chatapi-0.0.1-SNAPSHOT.jar)<br>
+- [Download this](Compiled/chatapi-0.0.1-SNAPSHOT.jar)<br>
 - install java
 - launch terminal
 - cd to downloaded file
