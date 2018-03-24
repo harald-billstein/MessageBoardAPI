@@ -1,4 +1,4 @@
-**Send message**
+**Get latest messages**
 ----
 
 * **URL**
