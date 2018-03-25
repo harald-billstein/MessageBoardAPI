@@ -14,7 +14,7 @@
    **Required:**
     {
     	"user":"user",
-    	"password":"password",
+    	"token":"token",
       "message": "message"
     }
 

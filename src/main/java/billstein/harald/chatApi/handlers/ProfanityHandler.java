@@ -1,5 +1,7 @@
-package billstein.harald.chatApi.profanity;
+package billstein.harald.chatApi.handlers;
 
+import billstein.harald.chatApi.model.OutgoingProfanityRequest;
+import billstein.harald.chatApi.persistent.ProfanityIO;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,7 @@ public class ProfanityHandler {
       return true;
     }
   }
+
   public boolean addWordToProfanityList(String word) {
     logger.info("P-handler: " + word);
     return profanityIO.addWordToXMLFile(word);
@@ -46,5 +49,12 @@ public class ProfanityHandler {
 
   public boolean removeWordFromProfanityList(String word) {
     return profanityIO.deleteWordFromXMLFile(word);
+  }
+
+  public OutgoingProfanityRequest getOutGoingProfanityRequest(String message, boolean success) {
+    OutgoingProfanityRequest outgoingProfanityRequest = new OutgoingProfanityRequest();
+    outgoingProfanityRequest.setSuccess(success);
+    outgoingProfanityRequest.setMessage(message);
+    return outgoingProfanityRequest;
   }
 }

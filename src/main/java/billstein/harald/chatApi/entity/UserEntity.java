@@ -18,8 +18,11 @@ public class UserEntity {
   private Integer userID;
   @Column(unique = true)
   private String userName;
+  private String haschedPassword;
   private String token;
+  private long whenTokenWasCreated;
   private String salt;
+  private boolean isAdmin;
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
   @JsonManagedReference
@@ -44,6 +47,14 @@ public class UserEntity {
     this.userName = userName;
   }
 
+  public String getHaschedPassword() {
+    return haschedPassword;
+  }
+
+  public void setHaschedPassword(String haschedPassword) {
+    this.haschedPassword = haschedPassword;
+  }
+
   public String getToken() {
     return token;
   }
@@ -58,6 +69,22 @@ public class UserEntity {
 
   public void setSalt(String salt) {
     this.salt = salt;
+  }
+
+  public long getWhenTokenWasCreated() {
+    return whenTokenWasCreated;
+  }
+
+  public void setWhenTokenWasCreated(long whenTokenWasCreated) {
+    this.whenTokenWasCreated = whenTokenWasCreated;
+  }
+
+  public boolean isAdmin() {
+    return isAdmin;
+  }
+
+  public void setAdmin(boolean admin) {
+    isAdmin = admin;
   }
 
   public Set<MessageEntity> getMessage() {

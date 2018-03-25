@@ -1,4 +1,4 @@
-package billstein.harald.chatApi.profanity;
+package billstein.harald.chatApi.persistent;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -49,7 +49,7 @@ public class ProfanityIO {
   }
 
 
-  List<String> loadBannedWordsFromXML() {
+  public List<String> loadBannedWordsFromXML() {
     List<String> bannedWords = new ArrayList<>();
     try {
       Document document = getDocument();
@@ -93,7 +93,7 @@ public class ProfanityIO {
     }
   }
 
-  boolean addWordToXMLFile(String word) {
+  public boolean addWordToXMLFile(String word) {
 
     Document document;
     boolean success = false;

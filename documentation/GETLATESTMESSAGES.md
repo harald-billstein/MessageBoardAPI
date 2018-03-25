@@ -8,6 +8,12 @@
 * **Method:**
 
   `GET`
+  
+*  **URL PARA;**
+  
+   * **Required:**<br>
+   userName: username
+   token: token
 
 * **Success Response:**
 

@@ -11,18 +11,18 @@
   
 *  **Body**
 
-   **Required:**
-    {
-    	"userName": "username",
-      "passWord": "password"
-    }
+   * **Required:**
+    `{
+       "userName": "username",
+       "passWord": "password"
+    }`
 
 * **Success Response:**
 
   * **Code:** 200 <br/>
-    **Content:** `{"userName": "username","passWord": "password"}`
+    **Content:** `{"userName": "username","token": "token"}`
  
 * **Error Response:**
 
   * **Code:** 226 IM_USED <br/>
-    **Content:** `{"userName": "username","passWord": "password"}`
+    **Content:** `none`
