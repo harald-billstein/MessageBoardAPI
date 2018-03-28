@@ -100,4 +100,16 @@ public class UserHandler {
   private Iterable<UserEntity> getAllUsers() {
     return userRepository.findAll();
   }
+
+  public boolean deleteUser(UserEntity userEntity) {
+    boolean success;
+
+    try {
+      userRepository.delete(userEntity);
+      success = true;
+    } catch (IllegalArgumentException e) {
+      success = false;
+    }
+    return success;
+  }
 }

@@ -24,6 +24,7 @@ public class AdminServiceController {
   private UserHandler userHandler;
 
   public AdminServiceController(ProfanityHandler profanityHandler, UserHandler userHandler) {
+    logger.info("AdminServiceController");
     this.profanityHandler = profanityHandler;
     this.userHandler = userHandler;
   }
@@ -79,14 +80,4 @@ public class AdminServiceController {
       return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body(outgoingProfanityRequest);
     }
   }
-    /*
-    boolean success = profanityHandler.removeWordFromProfanityList(word);
-
-    if (success) {
-      return ResponseEntity.ok(word);
-    } else {
-      return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
-    }
-  }
-  */
 }

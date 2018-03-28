@@ -6,12 +6,14 @@ import billstein.harald.chatApi.entity.UserEntity;
 import billstein.harald.chatApi.model.IncomingUser;
 import billstein.harald.chatApi.model.OutgoingUser;
 import billstein.harald.chatApi.handlers.UserHandler;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,6 +67,38 @@ public class UserServiceController {
       return ResponseEntity.ok(outgoingUser);
     } else {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+  }
+
+  @DeleteMapping(path = "/user/delete")
+  public ResponseEntity<Boolean> deleteUser(@RequestBody() IncomingUser user) {
+    logger.info("delete user: " + user.getUserName() + " " + user.getPassWord());
+
+    UserEntity userEntity;
+    List<String> listOfPossibleHashedPasswords;
+    String hashedPassword;
+    boolean accessGranted;
+
+    userEntity = userHandler.getUser(user.getUserName());
+
+    try {
+      if (userEntity != null) {
+        listOfPossibleHashedPasswords = getPossibleMatches(user.getPassWord(),
+            userEntity.getSalt());
+        hashedPassword = userEntity.getHaschedPassword();
+        accessGranted = userHandler.userHasAccess(listOfPossibleHashedPasswords, hashedPassword);
+      } else {
+        accessGranted = false;
+      }
+    } catch (NoSuchAlgorithmException e) {
+      accessGranted = false;
+    }
+
+    if (accessGranted) {
+      userHandler.deleteUser(userEntity);
+      return ResponseEntity.ok(true);
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
     }
   }
 }
