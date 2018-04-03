@@ -2,6 +2,8 @@ package billstein.harald.chatApi.service;
 
 import billstein.harald.chatApi.entity.UserEntity;
 import billstein.harald.chatApi.handlers.UserHandler;
+import billstein.harald.chatApi.language.English;
+import billstein.harald.chatApi.language.Language;
 import billstein.harald.chatApi.model.IncomingProfanityRequest;
 import billstein.harald.chatApi.handlers.ProfanityHandler;
 import billstein.harald.chatApi.model.OutgoingProfanityRequest;
@@ -22,6 +24,7 @@ public class AdminServiceController {
   private Logger logger = LoggerFactory.getLogger(AdminServiceController.class);
   private ProfanityHandler profanityHandler;
   private UserHandler userHandler;
+  private Language english = new English();
 
   public AdminServiceController(ProfanityHandler profanityHandler, UserHandler userHandler) {
     logger.info("AdminServiceController");
@@ -42,10 +45,10 @@ public class AdminServiceController {
     if (tokenIsValid && userEntity.isAdmin()) {
       success = profanityHandler.addWordToProfanityList(profanityReq.getWord());
       outgoingProfanityRequest = profanityHandler
-          .getOutGoingProfanityRequest("Word added to list", true);
+          .getOutGoingProfanityRequest(english.getProfanityWordAddedText(), true);
     } else {
       outgoingProfanityRequest = profanityHandler
-          .getOutGoingProfanityRequest("Something was not meant for the list", false);
+          .getOutGoingProfanityRequest(english.getProfanityWordWasNotAddedText(), false);
     }
 
     if (success) {
@@ -68,10 +71,10 @@ public class AdminServiceController {
     if (tokenIsValid && userEntity.isAdmin()) {
       success = profanityHandler.removeWordFromProfanityList(profanityReq.getWord());
       outgoingProfanityRequest = profanityHandler
-          .getOutGoingProfanityRequest("Word removed to list", true);
+          .getOutGoingProfanityRequest(english.getProfanityWordWasRemovedText(), true);
     } else {
       outgoingProfanityRequest = profanityHandler
-          .getOutGoingProfanityRequest("Something was meant for this list", false);
+          .getOutGoingProfanityRequest(english.getProfanityWordWasNotRemovedText(), false);
     }
 
     if (success) {
