@@ -1,7 +1,6 @@
 package billstein.harald.chatApi.utility;
 
 import billstein.harald.chatApi.entity.UserEntity;
-import java.util.Calendar;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class TokenUtil {
@@ -19,19 +18,20 @@ public class TokenUtil {
   }
 
   public static boolean hasTokenExpired(UserEntity userEntity) {
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTimeInMillis(userEntity.getWhenTokenWasCreated());
 
     long createDate = userEntity.getWhenTokenWasCreated();
     long currentTime = System.currentTimeMillis();
-    long oneDay = 86400000;
-    //long tenSeconds = 10000;
+    long oneDayInMilliseconds = 86400000;
 
-    long tokenAge = oneDay + createDate;
+    long tokenAge = oneDayInMilliseconds + createDate;
     long result = currentTime - tokenAge;
 
-    System.out.println(result);
-
     return result >= 0;
+  }
+
+  public static boolean refreshToken() {
+
+
+    return false;
   }
 }
