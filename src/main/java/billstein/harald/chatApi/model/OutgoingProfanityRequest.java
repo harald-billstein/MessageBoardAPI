@@ -3,10 +3,8 @@ package billstein.harald.chatApi.model;
 import lombok.Data;
 
 @Data
-public class IncomingMessage {
+public class OutgoingProfanityRequest {
 
-  private String user;
-  private String token;
+  private boolean success;
   private String message;
-
 }

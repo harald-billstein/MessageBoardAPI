@@ -3,10 +3,9 @@ package billstein.harald.chatApi.model;
 import lombok.Data;
 
 @Data
-public class IncomingMessage {
+public class OutgoingUser {
 
-  private String user;
+  private String username;
   private String token;
-  private String message;
 
 }

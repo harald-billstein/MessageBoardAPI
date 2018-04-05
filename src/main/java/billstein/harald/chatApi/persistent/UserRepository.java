@@ -1,4 +1,4 @@
-package billstein.harald.chatApi.database;
+package billstein.harald.chatApi.persistent;
 
 import billstein.harald.chatApi.entity.UserEntity;
 import org.springframework.data.repository.CrudRepository;

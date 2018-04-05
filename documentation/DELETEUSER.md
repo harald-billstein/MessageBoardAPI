@@ -1,4 +1,4 @@
-**Create user**
+**Delete user**
 ----
 
 * **URL**
@@ -7,7 +7,7 @@
 
 * **Method:**
 
-  `PUT`
+  `DELETE`
   
 *  **Body**
 
@@ -20,9 +20,9 @@
 * **Success Response:**
 
   * **Code:** 200 <br/>
-    **Content:** `{"userName": "username","token": "token"}`
+    **Content:** `true`
  
 * **Error Response:**
 
-  * **Code:** 226 IM_USED <br/>
-    **Content:** `none`
+  * **Code:** 404 NOT_FOUND <br/>
+    **Content:** `false`

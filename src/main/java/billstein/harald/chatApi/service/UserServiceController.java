@@ -1,16 +1,21 @@
 package billstein.harald.chatApi.service;
 
+import static billstein.harald.chatApi.utility.PasswordUtil.getPossibleMatches;
+
 import billstein.harald.chatApi.entity.UserEntity;
+import billstein.harald.chatApi.handlers.UserHandler;
 import billstein.harald.chatApi.model.IncomingUser;
-import billstein.harald.chatApi.database.UserRepository;
-import billstein.harald.chatApi.utility.PasswordUtil;
-import org.apache.commons.lang3.RandomStringUtils;
+import billstein.harald.chatApi.model.OutgoingUser;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,30 +24,82 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserServiceController {
 
   private Logger logger = LoggerFactory.getLogger(UserServiceController.class);
-  private UserRepository userRepository;
+  private UserHandler userHandler;
 
-  public UserServiceController(UserRepository userRepository) {
-    this.userRepository = userRepository;
+  public UserServiceController(UserHandler userHandler) {
+    this.userHandler = userHandler;
   }
 
-  @PostMapping(path = "/user/new")
-  public ResponseEntity<IncomingUser> postUser(@RequestBody() IncomingUser user) {
-    logger.info("postUser");
+  @PutMapping(path = "/user/new")
+  public ResponseEntity<OutgoingUser> postUser(@RequestBody() IncomingUser user) {
+    logger.info("Register new user");
 
-    String salt = RandomStringUtils.randomAlphabetic(10);
-    String token = PasswordUtil.createHashedPassword(user.getPassWord(), salt);
+    UserEntity savedUser = userHandler.saveNewUser(user);
+    if (savedUser != null) {
+      OutgoingUser outgoingUser = userHandler.createOutgoingUser(savedUser);
+      return ResponseEntity.ok(outgoingUser);
+    } else {
+      return ResponseEntity.status(HttpStatus.IM_USED).build();
+    }
+  }
 
-    UserEntity userToBeSaved = new UserEntity();
+  @PostMapping(path = "/user/get")
+  public ResponseEntity<OutgoingUser> getUser(@RequestBody() IncomingUser user) {
+    logger.info("Retrieving user");
 
-    userToBeSaved.setUserName(user.getUserName());
-    userToBeSaved.setSalt(salt);
-    userToBeSaved.setToken(token);
+    UserEntity userEntity;
+    List<String> listOfPossibleHashedPasswords;
+    String hashedPassword;
+    boolean accessGranted;
+    OutgoingUser outgoingUser;
 
     try {
-      userRepository.save(userToBeSaved);
-      return ResponseEntity.ok(user);
+      userEntity = userHandler.getUser(user.getUserName());
+      listOfPossibleHashedPasswords = getPossibleMatches(user.getPassWord(), userEntity.getSalt());
+      hashedPassword = userEntity.getHaschedPassword();
+      accessGranted = userHandler.userHasAccess(listOfPossibleHashedPasswords, hashedPassword);
+      outgoingUser = userHandler.createOutgoingUser(userEntity);
     } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.IM_USED).body(user);
+      accessGranted = false;
+      outgoingUser = null;
+    }
+
+    if (accessGranted && outgoingUser != null) {
+      return ResponseEntity.ok(outgoingUser);
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+  }
+
+  @DeleteMapping(path = "/user/delete")
+  public ResponseEntity<Boolean> deleteUser(@RequestBody() IncomingUser user) {
+    logger.info("delete user: " + user.getUserName() + " " + user.getPassWord());
+
+    UserEntity userEntity;
+    List<String> listOfPossibleHashedPasswords;
+    String hashedPassword;
+    boolean accessGranted;
+
+    userEntity = userHandler.getUser(user.getUserName());
+
+    try {
+      if (userEntity != null) {
+        listOfPossibleHashedPasswords = getPossibleMatches(user.getPassWord(),
+            userEntity.getSalt());
+        hashedPassword = userEntity.getHaschedPassword();
+        accessGranted = userHandler.userHasAccess(listOfPossibleHashedPasswords, hashedPassword);
+      } else {
+        accessGranted = false;
+      }
+    } catch (NoSuchAlgorithmException e) {
+      accessGranted = false;
+    }
+
+    if (accessGranted) {
+      userHandler.deleteUser(userEntity);
+      return ResponseEntity.ok(true);
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
     }
   }
 }

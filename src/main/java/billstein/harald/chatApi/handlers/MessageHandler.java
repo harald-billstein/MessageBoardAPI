@@ -1,11 +1,10 @@
-package billstein.harald.chatApi.repository;
+package billstein.harald.chatApi.handlers;
 
-import billstein.harald.chatApi.database.MessageRepository;
+import billstein.harald.chatApi.persistent.MessageRepository;
 import billstein.harald.chatApi.entity.MessageEntity;
 import billstein.harald.chatApi.entity.UserEntity;
 import billstein.harald.chatApi.model.IncomingMessage;
 import billstein.harald.chatApi.model.OutgoingMessage;
-import billstein.harald.chatApi.profanity.ProfanityHandler;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Controller;
