@@ -1,13 +1,13 @@
-**Create user**
+**Get user**
 ----
 
 * **URL**
 
-  /api/v2/user/new
+  /api/v2/user/get
 
 * **Method:**
 
-  `PUT`
+  `GET`
   
 *  **Body**
 

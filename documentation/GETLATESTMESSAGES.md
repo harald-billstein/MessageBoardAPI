@@ -9,7 +9,7 @@
 
   `GET`
   
-*  **URL PARA;**
+*  **URL PARAM**
   
    * **Required:**<br>
    userName: username

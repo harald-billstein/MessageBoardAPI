@@ -7,7 +7,7 @@
 
 * **Method:**
 
-  `POST`
+  `PUT`
   
 *  **BODY**
 
