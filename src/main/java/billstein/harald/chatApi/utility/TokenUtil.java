@@ -31,7 +31,6 @@ public class TokenUtil {
 
   public static boolean refreshToken() {
 
-
     return false;
   }
 }

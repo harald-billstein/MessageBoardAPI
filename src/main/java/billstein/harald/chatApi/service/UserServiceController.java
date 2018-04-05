@@ -3,9 +3,9 @@ package billstein.harald.chatApi.service;
 import static billstein.harald.chatApi.utility.PasswordUtil.getPossibleMatches;
 
 import billstein.harald.chatApi.entity.UserEntity;
+import billstein.harald.chatApi.handlers.UserHandler;
 import billstein.harald.chatApi.model.IncomingUser;
 import billstein.harald.chatApi.model.OutgoingUser;
-import billstein.harald.chatApi.handlers.UserHandler;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import org.slf4j.Logger;
