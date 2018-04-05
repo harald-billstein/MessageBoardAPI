@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class UserEntity {
@@ -26,6 +28,7 @@ public class UserEntity {
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
   @JsonManagedReference
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private Set<MessageEntity> message;
 
   public UserEntity() {
