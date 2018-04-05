@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -29,7 +30,7 @@ public class UserServiceController {
     this.userHandler = userHandler;
   }
 
-  @PostMapping(path = "/user/new")
+  @PutMapping(path = "/user/new")
   public ResponseEntity<OutgoingUser> postUser(@RequestBody() IncomingUser user) {
     logger.info("Register new user");
 

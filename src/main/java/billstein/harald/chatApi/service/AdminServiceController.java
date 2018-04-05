@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,7 +33,7 @@ public class AdminServiceController {
     this.userHandler = userHandler;
   }
 
-  @PostMapping(path = "/add/banned/word")
+  @PutMapping(path = "/add/banned/word")
   public ResponseEntity<OutgoingProfanityRequest> addBannedWord(
       @RequestBody IncomingProfanityRequest profanityReq) {
 
