@@ -10,9 +10,6 @@ public class PasswordUtil {
 
   private static String alphabetString = "ABCDEFGHILJKLMNOPQRSTUVXYZabcdefghiljklmnopqrstuvxyz";
 
-  public PasswordUtil() {
-  }
-
   public static List<String> getPossibleMatches(String password, String salt)
       throws NoSuchAlgorithmException {
     shuffle();
