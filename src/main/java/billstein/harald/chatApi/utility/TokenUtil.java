@@ -1,6 +1,7 @@
 package billstein.harald.chatApi.utility;
 
 import billstein.harald.chatApi.entity.UserEntity;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class TokenUtil {
@@ -21,16 +22,9 @@ public class TokenUtil {
 
     long createDate = userEntity.getWhenTokenWasCreated();
     long currentTime = System.currentTimeMillis();
-    long oneDayInMilliseconds = 86400000;
+    long oneDayInMilliseconds = TimeUnit.HOURS.toMillis(24);
 
-    long tokenAge = oneDayInMilliseconds + createDate;
-    long result = currentTime - tokenAge;
-
-    return result >= 0;
-  }
-
-  public static boolean refreshToken() {
-
-    return false;
+    long tokenValidTime = oneDayInMilliseconds + createDate;
+    return tokenValidTime <= currentTime;
   }
 }
