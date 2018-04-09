@@ -5,7 +5,6 @@ import billstein.harald.chatApi.entity.UserEntity;
 import billstein.harald.chatApi.handlers.UserHandler;
 import billstein.harald.chatApi.model.IncomingUser;
 import billstein.harald.chatApi.model.OutgoingUser;
-import billstein.harald.chatApi.service.UserServiceController;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -47,34 +46,32 @@ public class UserServiceControllerTest {
 
   @Test
   public void getUser() {
+    // Test: Getting user
     ResponseEntity<OutgoingUser> outgoingUser = userServiceController.getUser(incomingUser);
-
     Assert.assertEquals(HttpStatus.OK, outgoingUser.getStatusCode());
     Assert.assertEquals(outgoingUser.getBody().getUsername(), userName);
     Assert.assertNotNull(outgoingUser.getBody().getToken());
 
-    incomingUser.setPassWord(null);
-    outgoingUser = userServiceController.getUser(incomingUser);
-    Assert.assertEquals(outgoingUser.getStatusCode(), HttpStatus.NOT_FOUND);
-
+    // Test: Wrong pass supplied
     incomingUser.setPassWord("wrongPassword");
     outgoingUser = userServiceController.getUser(incomingUser);
     Assert.assertEquals(outgoingUser.getStatusCode(), HttpStatus.NOT_FOUND);
 
+    // Test: No user found
     outgoingUser = userServiceController.getUser(new IncomingUser());
-
     Assert.assertEquals(outgoingUser.getStatusCode(), HttpStatus.NOT_FOUND);
 
   }
 
   @Test
   public void deleteUser() {
+    // Test: Delete user
     ResponseEntity<Boolean> response = userServiceController.deleteUser(incomingUser);
-
     Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+
+    // Test: Delete user not found in DB
     response = userServiceController.deleteUser(incomingUser);
     Assert.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-
   }
 
   @Test
@@ -94,8 +91,5 @@ public class UserServiceControllerTest {
 
     deleteUserResponse = userServiceController.deleteUser(incomingUser);
     Assert.assertEquals(deleteUserResponse.getBody(), false);
-
-
   }
-
 }
