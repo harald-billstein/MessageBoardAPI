@@ -6,11 +6,11 @@ import org.junit.Test;
 
 public class MessageEntityTest {
 
-  UserEntity userEntity;
+  private UserEntity userEntity;
   private MessageEntity messageEntity;
-  private String message = "message";
-  private int messageID = 1;
-  private String userName = "username";
+  private final String message = "message";
+  private final int messageID = 1;
+  private final String userName = "username";
 
   @Before
   public void init() {

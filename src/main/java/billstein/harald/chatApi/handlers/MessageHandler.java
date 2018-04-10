@@ -13,8 +13,8 @@ import org.springframework.stereotype.Controller;
 public class MessageHandler {
 
   private static final int MAX_LENGTH_MESSAGE = 255;
-  private ProfanityHandler profanityHandler;
-  private MessageRepository messageRepository;
+  private final ProfanityHandler profanityHandler;
+  private final MessageRepository messageRepository;
 
   public MessageHandler(ProfanityHandler profanityHandler, MessageRepository messageRepository) {
     this.profanityHandler = profanityHandler;

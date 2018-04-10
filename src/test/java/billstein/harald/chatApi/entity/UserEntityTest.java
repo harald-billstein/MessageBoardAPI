@@ -9,16 +9,16 @@ import org.junit.Test;
 
 public class UserEntityTest {
 
-  Set<MessageEntity> messages;
+  private Set<MessageEntity> messages;
   private UserEntity userEntity;
-  private String salt = "salt";
-  private String hashedPassword = "hashedpassword";
-  private boolean admin = true;
-  private String userName = "username";
-  private String token = "token";
+  private final String salt = "salt";
+  private final String hashedPassword = "hashedpassword";
+  private final boolean admin = true;
+  private final String userName = "username";
+  private final String token = "token";
   private long tokenCreated;
-  private String message = "message";
-  private int userID = 1;
+  private final String message = "message";
+  private final int userID = 1;
 
   @Before
   public void init() {

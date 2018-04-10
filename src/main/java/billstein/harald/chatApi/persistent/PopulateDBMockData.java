@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PopulateDBMockData implements ApplicationListener<ContextRefreshedEvent> {
 
-  private MessageRepository messageRepository;
-  private UserRepository userRepository;
+  private final MessageRepository messageRepository;
+  private final UserRepository userRepository;
 
   public PopulateDBMockData(MessageRepository messageRepository, UserRepository userRepository) {
     this.messageRepository = messageRepository;

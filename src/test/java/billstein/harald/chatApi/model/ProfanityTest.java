@@ -6,17 +6,14 @@ import org.junit.Test;
 
 public class ProfanityTest {
 
-  private String userName = "testName";
-  private String word = "word";
-  private String message = "message";
-  private boolean success = true;
-
   @Test
   public void testIncomingProfanityRequest() {
 
-    String token = TokenUtil.generateToken();
-
     IncomingProfanityRequest incomingProfanityRequest = new IncomingProfanityRequest();
+    String token = TokenUtil.generateToken();
+    String userName = "testName";
+    String word = "word";
+
     incomingProfanityRequest.setUserName(userName);
     incomingProfanityRequest.setToken(token);
     incomingProfanityRequest.setWord(word);
@@ -29,11 +26,13 @@ public class ProfanityTest {
   @Test
   public void testOutgoingProfanityRequest() {
     OutgoingProfanityRequest outgoingProfanityRequest = new OutgoingProfanityRequest();
+
+    String message = "message";
     outgoingProfanityRequest.setMessage(message);
-    outgoingProfanityRequest.setSuccess(success);
+    outgoingProfanityRequest.setSuccess(true);
 
     Assert.assertEquals(message, outgoingProfanityRequest.getMessage());
-    Assert.assertEquals(success, outgoingProfanityRequest.isSuccess());
+    Assert.assertTrue(outgoingProfanityRequest.isSuccess());
 
   }
 

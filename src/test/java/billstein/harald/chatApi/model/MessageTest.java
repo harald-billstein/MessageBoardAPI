@@ -6,8 +6,8 @@ import org.junit.Test;
 
 public class MessageTest {
 
-  private String message = "testMessage";
-  private String user = "testName";
+  private final String message = "testMessage";
+  private final String user = "testName";
 
   @Test
   public void testIncomingMessage() {

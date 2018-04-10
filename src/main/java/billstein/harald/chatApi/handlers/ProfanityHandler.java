@@ -11,8 +11,8 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ProfanityHandler {
 
-  private Logger logger = LoggerFactory.getLogger(ProfanityHandler.class);
-  private ProfanityIO profanityIO;
+  private final Logger logger = LoggerFactory.getLogger(ProfanityHandler.class);
+  private final ProfanityIO profanityIO;
   private List<String> bannedWords;
 
   public ProfanityHandler(ProfanityIO profanityIO) {

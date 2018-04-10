@@ -6,8 +6,8 @@ import org.junit.Test;
 
 public class UserTest {
 
-  private String userName = "testName";
-  private String password = "testPassword";
+  private final String userName = "testName";
+  private final String password = "testPassword";
 
   @Test
   public void testIncomingUser() {

@@ -26,8 +26,8 @@ public class MessageServiceControllerTest {
   @Autowired
   private MessageServiceController messageServiceController;
   private IncomingUser incomingUser;
-  private String userName = "JunitTestUser";
-  private String userPassword = "JunitTestPassword";
+  private final String userName = "JunitTestUser";
+  private final String userPassword = "JunitTestPassword";
   private ResponseEntity<OutgoingUser> userEntity;
 
   @Before

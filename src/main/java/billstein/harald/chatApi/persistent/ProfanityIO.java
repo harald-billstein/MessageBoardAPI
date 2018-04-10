@@ -3,7 +3,6 @@ package billstein.harald.chatApi.persistent;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.jdom2.Document;
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Controller;
 public class ProfanityIO {
 
   private static final String URL = "profanity.xml";
-  private Logger logger = LoggerFactory.getLogger(ProfanityIO.class);
+  private final Logger logger = LoggerFactory.getLogger(ProfanityIO.class);
   private XMLOutputter xmlOutputter;
   private SAXBuilder saxBuilder;
 
@@ -37,7 +36,7 @@ public class ProfanityIO {
     boolean restoreFileNeeded = false;
 
     try {
-      InputStream inputStream = new FileInputStream(URL);
+      new FileInputStream(URL);
     } catch (IOException e) {
       restoreFileNeeded = true;
       logger.warn("File missing.....Restoring");
@@ -135,9 +134,9 @@ public class ProfanityIO {
       document = getDocument();
       List<Element> children = getChildrenElements(document);
 
-      for (int i = 0; i < children.size(); i++) {
-        if (word.equals(children.get(i).getText())) {
-          children.get(i).detach();
+      for (Element aChildren : children) {
+        if (word.equals(aChildren.getText())) {
+          aChildren.detach();
           break;
         }
 
@@ -174,9 +173,9 @@ public class ProfanityIO {
       Document document = getDocument();
       List<Element> children = getChildrenElements(document);
 
-      for (int i = 0; i < children.size(); i++) {
-        if (children.get(i).getText().equals(oldWord)) {
-          children.get(i).setText(newWord);
+      for (Element aChildren : children) {
+        if (aChildren.getText().equals(oldWord)) {
+          aChildren.setText(newWord);
           success = true;
           break;
         }

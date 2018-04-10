@@ -15,8 +15,8 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class UserHandler {
 
-  private Logger logger = LoggerFactory.getLogger(UserHandler.class);
-  private UserRepository userRepository;
+  private final Logger logger = LoggerFactory.getLogger(UserHandler.class);
+  private final UserRepository userRepository;
 
   public UserHandler(UserRepository userRepository) {
     logger.info("UserHandler created");
@@ -50,7 +50,7 @@ public class UserHandler {
     return hasAccess;
   }
 
-  public boolean tokenIsValied(String token, UserEntity userEntity) {
+  public boolean tokenIsValid(String token, UserEntity userEntity) {
     return userEntity != null && token.equals(userEntity.getToken());
   }
 

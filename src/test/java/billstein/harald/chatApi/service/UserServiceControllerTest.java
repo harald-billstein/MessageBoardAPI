@@ -26,8 +26,8 @@ public class UserServiceControllerTest {
   private UserHandler userHandler;
   private IncomingUser incomingUser;
   private UserEntity userEntity;
-  private String userName = "JunitTestUser";
-  private String userPassword = "JunitTestPassword";
+  private final String userName = "JunitTestUser";
+  private final String userPassword = "JunitTestPassword";
 
   @Before
   public void setupNewUser() {

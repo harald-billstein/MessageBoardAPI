@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(path = "/api/v2")
 public class MessageServiceController {
 
-  private Logger logger = LoggerFactory.getLogger(MessageServiceController.class);
+  private final Logger logger = LoggerFactory.getLogger(MessageServiceController.class);
 
-  private MessageHandler messageHandler;
-  private UserHandler userHandler;
+  private final MessageHandler messageHandler;
+  private final UserHandler userHandler;
 
   public MessageServiceController(MessageHandler messageHandler,
       UserHandler userHandler) {

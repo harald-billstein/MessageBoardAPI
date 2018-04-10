@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(path = "/api/v2")
 public class AdminServiceController {
 
-  private Logger logger = LoggerFactory.getLogger(AdminServiceController.class);
-  private ProfanityHandler profanityHandler;
-  private UserHandler userHandler;
-  private Language english = new English();
+  private final Logger logger = LoggerFactory.getLogger(AdminServiceController.class);
+  private final ProfanityHandler profanityHandler;
+  private final UserHandler userHandler;
+  private final Language english = new English();
 
   public AdminServiceController(ProfanityHandler profanityHandler, UserHandler userHandler) {
     logger.info("AdminServiceController");
@@ -41,7 +41,7 @@ public class AdminServiceController {
     OutgoingProfanityRequest outgoingProfanityRequest;
 
     UserEntity userEntity = userHandler.getUser(profanityReq.getUserName());
-    boolean tokenIsValid = userHandler.tokenIsValied(profanityReq.getToken(), userEntity);
+    boolean tokenIsValid = userHandler.tokenIsValid(profanityReq.getToken(), userEntity);
     boolean tokenExpired = TokenUtil.hasTokenExpired(userEntity);
 
     if (tokenIsValid && userEntity.isAdmin() && !tokenExpired) {
@@ -54,6 +54,7 @@ public class AdminServiceController {
     }
 
     if (success) {
+      profanityHandler.reloadProfanityList();
       return ResponseEntity.ok(outgoingProfanityRequest);
     } else {
       return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body(outgoingProfanityRequest);
@@ -68,7 +69,7 @@ public class AdminServiceController {
     OutgoingProfanityRequest outgoingProfanityRequest;
 
     UserEntity userEntity = userHandler.getUser(profanityReq.getUserName());
-    boolean tokenIsValid = userHandler.tokenIsValied(profanityReq.getToken(), userEntity);
+    boolean tokenIsValid = userHandler.tokenIsValid(profanityReq.getToken(), userEntity);
     boolean tokenExpired = TokenUtil.hasTokenExpired(userEntity);
 
     if (tokenIsValid && userEntity.isAdmin() && !tokenExpired) {
@@ -81,6 +82,7 @@ public class AdminServiceController {
     }
 
     if (success) {
+      profanityHandler.reloadProfanityList();
       return ResponseEntity.ok(outgoingProfanityRequest);
     } else {
       return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body(outgoingProfanityRequest);
