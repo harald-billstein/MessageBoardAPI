@@ -7,6 +7,7 @@ import billstein.harald.chatApi.language.English;
 import billstein.harald.chatApi.language.Language;
 import billstein.harald.chatApi.model.IncomingProfanityRequest;
 import billstein.harald.chatApi.model.OutgoingProfanityRequest;
+import billstein.harald.chatApi.utility.TokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -41,8 +42,9 @@ public class AdminServiceController {
 
     UserEntity userEntity = userHandler.getUser(profanityReq.getUserName());
     boolean tokenIsValid = userHandler.tokenIsValied(profanityReq.getToken(), userEntity);
+    boolean tokenExpired = TokenUtil.hasTokenExpired(userEntity);
 
-    if (tokenIsValid && userEntity.isAdmin()) {
+    if (tokenIsValid && userEntity.isAdmin() && !tokenExpired) {
       success = profanityHandler.addWordToProfanityList(profanityReq.getWord());
       outgoingProfanityRequest = profanityHandler
           .getOutGoingProfanityRequest(english.getProfanityWordAddedText(), true);
@@ -67,8 +69,9 @@ public class AdminServiceController {
 
     UserEntity userEntity = userHandler.getUser(profanityReq.getUserName());
     boolean tokenIsValid = userHandler.tokenIsValied(profanityReq.getToken(), userEntity);
+    boolean tokenExpired = TokenUtil.hasTokenExpired(userEntity);
 
-    if (tokenIsValid && userEntity.isAdmin()) {
+    if (tokenIsValid && userEntity.isAdmin() && !tokenExpired) {
       success = profanityHandler.removeWordFromProfanityList(profanityReq.getWord());
       outgoingProfanityRequest = profanityHandler
           .getOutGoingProfanityRequest(english.getProfanityWordWasRemovedText(), true);

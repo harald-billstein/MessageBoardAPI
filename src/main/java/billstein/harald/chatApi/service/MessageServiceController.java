@@ -5,6 +5,7 @@ import billstein.harald.chatApi.handlers.MessageHandler;
 import billstein.harald.chatApi.handlers.UserHandler;
 import billstein.harald.chatApi.model.IncomingMessage;
 import billstein.harald.chatApi.model.OutgoingMessage;
+import billstein.harald.chatApi.utility.TokenUtil;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +39,10 @@ public class MessageServiceController {
     logger.info("Latest messages retrieved");
 
     UserEntity userEntity = userHandler.getUser(userName);
+    boolean tokenExpired = TokenUtil.hasTokenExpired(userEntity);
+    boolean tokenValid = userEntity.getToken().equals(token);
 
-    if (userEntity != null && userEntity.getToken().equals(token)) {
+    if (userEntity != null && tokenValid && !tokenExpired) {
       List<OutgoingMessage> latestMessages = messageHandler.getLatestMessages();
       return ResponseEntity.ok().body(latestMessages);
     } else {
@@ -59,6 +62,7 @@ public class MessageServiceController {
     boolean isPasswordCorrect;
     boolean isMessageFromProfanityFree;
     boolean isMessageSizeAccepted;
+    boolean hasTokenExpired;
 
     isUserPreset = userHandler.isValidUser(messageReceived.getUser());
     if (isUserPreset) {
@@ -69,6 +73,14 @@ public class MessageServiceController {
     }
 
     if (isPasswordCorrect) {
+      hasTokenExpired = TokenUtil.hasTokenExpired(user);
+
+    } else {
+      System.out.println("2");
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(outgoingMessage);
+    }
+
+    if (!hasTokenExpired) {
       isMessageFromProfanityFree = messageHandler.isFreeFromProfanity(messageReceived.getMessage());
     } else {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(outgoingMessage);

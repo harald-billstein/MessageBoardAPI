@@ -72,6 +72,9 @@ public class UserHandler {
   public OutgoingUser createOutgoingUser(UserEntity savedUser) {
     OutgoingUser outgoingUser = new OutgoingUser();
     outgoingUser.setUsername(savedUser.getUserName());
+    savedUser.setToken(TokenUtil.generateToken());
+    savedUser.setWhenTokenWasCreated(TokenUtil.generateTime());
+    userRepository.save(savedUser);
     outgoingUser.setToken(savedUser.getToken());
     return outgoingUser;
   }
@@ -86,8 +89,6 @@ public class UserHandler {
     userToBeSaved.setSalt(salt);
     userToBeSaved.setHaschedPassword(token);
     userToBeSaved.setAdmin(false);
-    userToBeSaved.setToken(TokenUtil.generateToken());
-    userToBeSaved.setWhenTokenWasCreated(TokenUtil.generateTime());
 
     try {
       userRepository.save(userToBeSaved);
