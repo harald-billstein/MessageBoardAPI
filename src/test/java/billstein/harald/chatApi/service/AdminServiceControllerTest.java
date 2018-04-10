@@ -6,7 +6,6 @@ import billstein.harald.chatApi.handlers.UserHandler;
 import billstein.harald.chatApi.model.IncomingProfanityRequest;
 import billstein.harald.chatApi.model.OutgoingProfanityRequest;
 import billstein.harald.chatApi.persistent.ProfanityIO;
-import billstein.harald.chatApi.service.AdminServiceController;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;

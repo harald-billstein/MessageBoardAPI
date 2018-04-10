@@ -72,7 +72,13 @@ public class UserEntityTest {
 
   @Test
   public void messageTest() {
-    Assert.assertEquals(message, userEntity.getMessage().stream().findFirst().get().getMessageContent());
+    String userMessage = null;
+
+    if (userEntity.getMessage().stream().findFirst().isPresent()) {
+      userMessage = userEntity.getMessage().stream().findFirst().get().getMessageContent();
+    }
+
+    Assert.assertEquals(message, userMessage);
   }
 
   @Test
