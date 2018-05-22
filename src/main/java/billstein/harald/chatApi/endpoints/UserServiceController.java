@@ -1,4 +1,4 @@
-package billstein.harald.chatApi.service;
+package billstein.harald.chatApi.endpoints;
 
 import static billstein.harald.chatApi.utility.PasswordUtil.getPossibleMatches;
 
@@ -14,13 +14,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping(path = "/api/v2")
+@RequestMapping(path = "/api/v2/users")
 public class UserServiceController {
 
   private final Logger logger = LoggerFactory.getLogger(UserServiceController.class);
@@ -30,7 +32,7 @@ public class UserServiceController {
     this.userHandler = userHandler;
   }
 
-  @PutMapping(path = "/user/new")
+  @PostMapping(path = "/user/create")
   public ResponseEntity<OutgoingUser> postUser(@RequestBody() IncomingUser user) {
     logger.info("Register new user");
 
@@ -43,8 +45,9 @@ public class UserServiceController {
     }
   }
 
-  @PostMapping(path = "/user/get")
-  public ResponseEntity<OutgoingUser> getUser(@RequestBody() IncomingUser user) {
+  @GetMapping(path = "/user/retrieve")
+  public ResponseEntity<OutgoingUser> getUser(@RequestParam String userName,
+      @RequestParam String password) {
     logger.info("Retrieving user");
 
     UserEntity userEntity;
@@ -54,8 +57,8 @@ public class UserServiceController {
     OutgoingUser outgoingUser;
 
     try {
-      userEntity = userHandler.getUser(user.getUserName());
-      listOfPossibleHashedPasswords = getPossibleMatches(user.getPassWord(), userEntity.getSalt());
+      userEntity = userHandler.getUser(userName);
+      listOfPossibleHashedPasswords = getPossibleMatches(password, userEntity.getSalt());
       hashedPassword = userEntity.getHaschedPassword();
       accessGranted = userHandler.userHasAccess(listOfPossibleHashedPasswords, hashedPassword);
       outgoingUser = userHandler.createOutgoingUser(userEntity);
@@ -71,7 +74,7 @@ public class UserServiceController {
     }
   }
 
-  @DeleteMapping(path = "/user/delete")
+  @DeleteMapping(path = "/user/remove")
   public ResponseEntity<Boolean> deleteUser(@RequestBody() IncomingUser user) {
     logger.info("delete user: " + user.getUserName() + " " + user.getPassWord());
 

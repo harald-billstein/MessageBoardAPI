@@ -1,4 +1,4 @@
-package billstein.harald.chatApi.service;
+package billstein.harald.chatApi.endpoints;
 
 import billstein.harald.chatApi.entity.UserEntity;
 import billstein.harald.chatApi.handlers.ProfanityHandler;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(path = "/api/v2")
+@RequestMapping(path = "/api/v2/admin")
 public class AdminServiceController {
 
   private final Logger logger = LoggerFactory.getLogger(AdminServiceController.class);
@@ -33,7 +33,7 @@ public class AdminServiceController {
     this.userHandler = userHandler;
   }
 
-  @PutMapping(path = "/add/banned/word")
+  @PutMapping(path = "/censure/create/word")
   public ResponseEntity<OutgoingProfanityRequest> addBannedWord(
       @RequestBody IncomingProfanityRequest profanityReq) {
 
@@ -61,7 +61,7 @@ public class AdminServiceController {
     }
   }
 
-  @DeleteMapping(path = "/remove/banned/word")
+  @DeleteMapping(path = "/censure/remove/word")
   public ResponseEntity<OutgoingProfanityRequest> removeBannedWord(
       @RequestBody IncomingProfanityRequest profanityReq) {
 

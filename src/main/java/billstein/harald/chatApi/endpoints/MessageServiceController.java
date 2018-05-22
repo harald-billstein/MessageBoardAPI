@@ -1,4 +1,4 @@
-package billstein.harald.chatApi.service;
+package billstein.harald.chatApi.endpoints;
 
 import billstein.harald.chatApi.entity.UserEntity;
 import billstein.harald.chatApi.handlers.MessageHandler;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping(path = "/api/v2")
+@RequestMapping(path = "/api/v2/messages")
 public class MessageServiceController {
 
   private final Logger logger = LoggerFactory.getLogger(MessageServiceController.class);
@@ -33,7 +33,7 @@ public class MessageServiceController {
     this.userHandler = userHandler;
   }
 
-  @GetMapping(path = "/latest/messages")
+  @GetMapping(path = "/retrieve")
   public ResponseEntity<List<OutgoingMessage>> getLatestMessages(@RequestParam String userName,
       @RequestParam String token) {
     logger.info("Latest messages retrieved");
@@ -51,7 +51,7 @@ public class MessageServiceController {
   }
 
 
-  @PostMapping(path = "/send/message")
+  @PostMapping(path = "/message/create")
   public ResponseEntity<OutgoingMessage>
   sendMessage(@RequestBody() IncomingMessage messageReceived) {
     logger.info("Message sent");
