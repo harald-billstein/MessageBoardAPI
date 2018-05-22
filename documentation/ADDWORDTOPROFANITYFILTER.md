@@ -3,7 +3,7 @@
 
 * **URL**
 
-  /api/v2/add/banned/word
+  /api/v2/admin/censure/create/word
 
 * **Method:**
 

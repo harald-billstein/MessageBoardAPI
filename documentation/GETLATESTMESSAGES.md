@@ -3,7 +3,7 @@
 
 * **URL**
 
-  /api/v2/latest/messages
+  /api/v2/messages/retrieve
 
 * **Method:**
 
@@ -18,7 +18,7 @@
 * **Success Response:**
 
   * **Code:** 200 <br/>
-    **Content:** `[
+    **Content:** <br/>`[
                       {
                           "user": "User1",
                           "message": "Message1"

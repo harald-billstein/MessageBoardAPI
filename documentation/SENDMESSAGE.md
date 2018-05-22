@@ -3,7 +3,7 @@
 
 * **URL**
 
-  /api/v2/send/message
+  /api/v2/messages/message/create
 
 * **Method:**
 
@@ -11,7 +11,7 @@
   
 *  **Body**
 
-   **Required:**
+   **Required:**<br/>
     {
     	"user":"user",
     	"token":"token",
@@ -21,7 +21,7 @@
 * **Success Response:**
 
   * **Code:** 200 <br/>
-    **Content:** `{"user": "user","message": "message"}`
+    **Content:**`{"user": "user","message": "message"}`
  
 * **Error Response:**
 

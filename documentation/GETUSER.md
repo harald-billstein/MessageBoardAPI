@@ -3,24 +3,25 @@
 
 * **URL**
 
-  /api/v2/user/get
+  /api/v2/users/user/retrieve
 
 * **Method:**
 
   `GET`
   
-*  **Body**
+*  **Param**
 
    * **Required:**
-    `{
-       "userName": "username",
+    <br/>
+       "userName": "username"
+    <br/>
        "passWord": "password"
-    }`
+    
 
 * **Success Response:**
 
   * **Code:** 200 <br/>
-    **Content:** `{"userName": "username","token": "token"}`
+    **Content:** <br/>`{"userName": "username","token": "token"}`
  
 * **Error Response:**
 

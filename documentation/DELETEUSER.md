@@ -3,7 +3,7 @@
 
 * **URL**
 
-  /api/v2/user/new
+  /api/v2/users/user/remove
 
 * **Method:**
 
