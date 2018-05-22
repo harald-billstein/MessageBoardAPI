@@ -16,8 +16,8 @@ public class TokenUtilTest {
 
   @Test
   public void generateTimeTest() {
-    long time = TokenUtil.generateTime() + 10;
-    Assert.assertTrue(time > System.currentTimeMillis());
+    long time = TokenUtil.generateTime() - 10;
+    Assert.assertTrue(time < System.currentTimeMillis());
   }
 
   @Test

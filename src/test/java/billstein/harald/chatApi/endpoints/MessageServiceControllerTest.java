@@ -1,4 +1,4 @@
-package billstein.harald.chatApi.service;
+package billstein.harald.chatApi.endpoints;
 
 import billstein.harald.chatApi.ChatApiApplication;
 import billstein.harald.chatApi.model.IncomingMessage;

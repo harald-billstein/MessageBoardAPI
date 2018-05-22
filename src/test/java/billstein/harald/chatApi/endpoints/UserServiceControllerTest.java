@@ -1,4 +1,4 @@
-package billstein.harald.chatApi.service;
+package billstein.harald.chatApi.endpoints;
 
 import billstein.harald.chatApi.ChatApiApplication;
 import billstein.harald.chatApi.entity.UserEntity;
@@ -47,18 +47,18 @@ public class UserServiceControllerTest {
   @Test
   public void getUser() {
     // Test: Getting user
-    ResponseEntity<OutgoingUser> outgoingUser = userServiceController.getUser(incomingUser);
+    ResponseEntity<OutgoingUser> outgoingUser = userServiceController.getUser(userName, userPassword);
     Assert.assertEquals(HttpStatus.OK, outgoingUser.getStatusCode());
     Assert.assertEquals(outgoingUser.getBody().getUsername(), userName);
     Assert.assertNotNull(outgoingUser.getBody().getToken());
 
     // Test: Wrong pass supplied
     incomingUser.setPassWord("wrongPassword");
-    outgoingUser = userServiceController.getUser(incomingUser);
+    outgoingUser = userServiceController.getUser(userName, "wrongPassword");
     Assert.assertEquals(outgoingUser.getStatusCode(), HttpStatus.NOT_FOUND);
 
     // Test: No user found
-    outgoingUser = userServiceController.getUser(new IncomingUser());
+    outgoingUser = userServiceController.getUser("userNotFound", userPassword);
     Assert.assertEquals(outgoingUser.getStatusCode(), HttpStatus.NOT_FOUND);
 
   }
@@ -66,6 +66,7 @@ public class UserServiceControllerTest {
   @Test
   public void deleteUser() {
     // Test: Delete user
+
     ResponseEntity<Boolean> response = userServiceController.deleteUser(incomingUser);
     Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
 
